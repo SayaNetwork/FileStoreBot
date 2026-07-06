@@ -1,15 +1,3 @@
-<p align="center">
-  <img src="https://i.ibb.co/dJ0gpJf1/photo-2025-06-16-12-07-05-7516517596376596504.jpg" alt="VJ-FILE-STORE-BOT Logo">
-</p>
-<h1 align="center">
-  VJ FILE STORE BOT
-</h1>
-
-
-![TGFileStore](https://telegra.ph/file/d651c7b7943a9702f846d.png)
-
-⍟ <b>𝗧𝗵𝗶𝘀 𝗶𝘀 𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗺 𝗣𝗮𝗿𝗺𝗮𝗻𝗲𝗻𝘁 𝗙𝗶𝗹𝗲𝘀 𝗦𝘁𝗼𝗿𝗲 𝗕𝗼𝘁 𝗯𝘆 [VJ_Bots](https://telegram.dog/VJ_Bots).<b>
-
 * **Language:** [Python3](https://www.python.org)
 * **Library:** [Pyrogram](https://docs.pyrogram.org)
 
@@ -66,8 +54,6 @@ Use these settings when adding a monitor:</b>
 <a target="_blank" href="https://app.koyeb.com/deploy?type=git&repository=github.com/VJBots/File-Store-Bot-With-Url-Shortner&branch=main&name=filestorevj"><img alt="Deploy to Koyeb" src="https://binbashbanana.github.io/deploy-buttons/buttons/remade/koyeb.svg"></a>
 </details>
 
-### Demo Bot:
-<a href="https://telegram.me/VJ_Botz"><img src="https://img.shields.io/badge/Demo-Telegram%20Bot-blue.svg?logo=telegram"></a>
 
 ![Configs](https://telegra.ph/file/033408792afc4d4f1f8f6.png) 🤖
 
@@ -86,8 +72,6 @@ Use these settings when adding a monitor:</b>
 - `LOG_CHANNEL` - Logs Channel ID
 	- This for some getting user info. If any new User added to DB, Bot will send Log to that Logs Channel. You can use same DB Channel ID.
 
-### Deploy Now:
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/VJBots/File-Store-Bot-With-Url-Shortner)
 
 ## Commands:
 ```
@@ -100,25 +84,4 @@ unban_user - [user_id] Unban Any User [Owner Only]
 banned_users - Get All Banned Users [Owner Only]
 ```
 
-### 𝐒𝐮𝐩𝐩𝐨𝐫𝐭 𝐆𝐫𝐨𝐮𝐩:
-<a href="https://telegram.dog/vj_bot_disscussion"><img src="https://img.shields.io/badge/Telegram-Join%20Telegram%20Group-green.svg?logo=telegram"></a>
-### 𝐔𝐩𝐝𝐚𝐭𝐞𝐬 𝐂𝐡𝐚𝐧𝐧𝐞𝐥:
-<a href="https://telegram.me/VJ_Bots"><img src="https://img.shields.io/badge/Telegram-Join%20Telegram%20Channel-yellow.svg?logo=telegram"></a>
 
-
-👲 <b>DEV</b>
-
-<p align="middle">
-<img src="https://graph.org/file/d57d6f83abb6b8d0efb02.jpg" width="150" height="150"><br>
-<img src="https://badgen.net/badge/Name/Tech_VJ/FF33FF?icon=awesome&labelColor=0080FF"></a>
-<img src="https://badgen.net/badge/Skills/python/Red?icon=terminal&labelColor=blue"></a>
-<a href="https://telegram.dog/KingVJ01"><img src="https://img.shields.io/badge/Telegram-Bot-blue.svg?logo=telegram"></a>
-<a href="https://github.com/VJBots"><img src="https://badgen.net/badge/Follow%20on%20/GitHub/80FF00?icon=github&labelColor=Green"></a>
-<a href="https://youtube.com/@Tech_VJ"><img src="https://img.shields.io/badge/YouTube-Channel-FF3333.svg?logo=youtube&logoColor=FF3333"></a>
-<a href="https://twitter.com/Cod3sofAbhi"><img src="https://img.shields.io/badge/Twitter-Follow%20on%20Twitter-informational.svg?logo=twitter"></a>
-<a href="https://facebook.com/"><img src="https://img.shields.io/badge/Facebook-Follow%20on%20Facebook-blue.svg?logo=facebook"></a>
-<a href="https://www.instagram.com/tech.vj"><img src="https://img.shields.io/badge/Instagram-Follow%20on%20Instagram-important.svg?logo=instagram"></a>
-
-# Credit
-- <b>Thanks To [Tech VJ](https://youtube.com/@Tech_VJ) For Fixing Error In Repo & Make Repo Deployable on Web Platform.<b> 💝
-- <b>Thanks To All Who Help In This Journey.<b> ♥️
