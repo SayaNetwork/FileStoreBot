@@ -45,6 +45,14 @@ def get_short(url):
         return rjson["shortenedUrl"]
     return url
 
+
+def get_sender_mention(message: Message):
+    if message and message.from_user:
+        return f"[{message.from_user.first_name}](tg://user?id={message.from_user.id})"
+    if message and message.sender_chat:
+        return message.sender_chat.title
+    return "Unknown User"
+
     
 async def forward_to_channel(bot: Client, message: Message, editable: Message):
     try:
@@ -96,7 +104,7 @@ async def save_batch_media_in_channel(bot: Client, editable: Message, message_id
         )
         await bot.send_message(
             chat_id=int(Config.LOG_CHANNEL),
-            text=f"#BATCH_SAVE:\n\n[{editable.reply_to_message.from_user.first_name}](tg://user?id={editable.reply_to_message.from_user.id}) Got Batch Link!",
+            text=f"#BATCH_SAVE:\n\n{get_sender_mention(editable.reply_to_message)} Got Batch Link!",
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Original Link", url=short_link),
                                                 InlineKeyboardButton("Short Link", url=share_link)]])
@@ -120,7 +128,7 @@ async def save_media_in_channel(bot: Client, editable: Message, message: Message
         forwarded_msg = await message.forward(Config.DB_CHANNEL)
         file_er_id = str(forwarded_msg.id)
         await forwarded_msg.reply_text(
-            f"#PRIVATE_FILE:\n\n[{message.from_user.first_name}](tg://user?id={message.from_user.id}) Got File Link!",
+            f"#PRIVATE_FILE:\n\n{get_sender_mention(message)} Got File Link!",
             disable_web_page_preview=True)
         share_link = f"https://telegram.me/{Config.BOT_USERNAME}?start=saya_{str_to_b64(file_er_id)}"
         short_link = get_short(share_link)

@@ -73,6 +73,19 @@ def help_markup():
     )
 
 
+def has_media(message: Message):
+    return bool(message and (
+        message.document or
+        message.video or
+        message.audio or
+        message.photo or
+        message.animation or
+        message.voice or
+        message.video_note or
+        message.sticker
+    ))
+
+
 @Bot.on_message(filters.private)
 async def _(bot: Client, cmd: Message):
     await handle_user_status(bot, cmd)
@@ -186,6 +199,30 @@ async def main(bot: Client, message: Message):
                 text=f"#ERROR_TRACEBACK:\nGot Error from `{str(message.chat.id)}` !!\n\n**Traceback:** `{err}`",
                 disable_web_page_preview=True
             )
+
+
+@Bot.on_message(filters.command("link") & ~filters.channel)
+async def link_handler(bot: Client, m: Message):
+    if m.from_user.id in Config.BANNED_USERS:
+        await m.reply_text("Sorry, You are banned.")
+        return
+
+    await add_user_to_database(bot, m)
+
+    if Config.UPDATES_CHANNEL is not None:
+        back = await handle_force_sub(bot, m)
+        if back == 400:
+            return
+
+    if Config.OTHER_USERS_CAN_SAVE_FILE is False:
+        return
+
+    if not has_media(m.reply_to_message):
+        await m.reply_text("Reply to any media file with /link to create a shareable link.", quote=True)
+        return
+
+    editable = await m.reply_text("Please wait, generating your file link ...", quote=True)
+    await save_media_in_channel(bot, editable=editable, message=m.reply_to_message)
 
 
 @Bot.on_message(filters.private & filters.command("broadcast") & filters.user(Config.BOT_OWNER) & filters.reply)
@@ -387,7 +424,7 @@ async def button(bot: Client, cmd: CallbackQuery):
             else:
                 channel_chat_id = Config.UPDATES_CHANNEL
             try:
-                user = await bot.get_chat_member(channel_chat_id, cmd.message.chat.id)
+                user = await bot.get_chat_member(channel_chat_id, cmd.from_user.id)
                 if user.status == "kicked":
                     await cmd.message.edit(
                         text="Sorry Sir, You are Banned to use me. Contact my [Sᴀʏᴀ](https://t.me/SayaProject).",
@@ -395,7 +432,7 @@ async def button(bot: Client, cmd: CallbackQuery):
                     )
                     return
             except UserNotParticipant:
-                invite_link = await get_invite_link(channel_chat_id)
+                invite_link = await get_invite_link(bot, channel_chat_id)
                 await cmd.message.edit(
                     text="**I like Your Smartness But Don't Be Oversmart! 😑**\n\n",
                     reply_markup=InlineKeyboardMarkup(
@@ -404,7 +441,7 @@ async def button(bot: Client, cmd: CallbackQuery):
                                 InlineKeyboardButton("🤖 Join Updates Channel", url=invite_link.invite_link)
                             ],
                             [
-                                InlineKeyboardButton("🔄 Refresh 🔄", callback_data="refreshmeh")
+                                InlineKeyboardButton("🔄 Refresh 🔄", callback_data="refreshForceSub")
                             ]
                         ]
                     )
@@ -417,20 +454,9 @@ async def button(bot: Client, cmd: CallbackQuery):
                 )
                 return
         await cmd.message.edit(
-            text=Config.HOME_TEXT.format(cmd.message.chat.first_name, cmd.message.chat.id),
+            text=Config.HOME_TEXT.format(cmd.from_user.first_name, cmd.from_user.id),
             disable_web_page_preview=True,
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton("Updates Channel", url="https://t.me/SayaProject"),
-                        InlineKeyboardButton("Support Group", url="https://t.me/SayaProject")
-                    ],
-                    [
-                        InlineKeyboardButton("Sᴀʏᴀ", callback_data="SayaProject"),
-                        InlineKeyboardButton("Sᴀʏᴀ", callback_data="SayaProject")
-                    ]
-                ]
-            )
+            reply_markup=home_markup()
         )
 
     elif cb_data.startswith("ban_user_"):

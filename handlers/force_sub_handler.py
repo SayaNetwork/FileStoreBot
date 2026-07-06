@@ -28,9 +28,8 @@ async def handle_force_sub(bot: Client, cmd: Message):
     try:
         user = await bot.get_chat_member(chat_id=channel_chat_id, user_id=cmd.from_user.id)
         if user.status == "kicked":
-            await bot.send_message(
-                chat_id=cmd.from_user.id,
-                text="Sorry Sir, You are Banned to use me. Contact my [Sᴀʏᴀ](https://t.me/SayaProject).",
+            await cmd.reply_text(
+                "Sorry Sir, You are Banned to use me. Contact my [Sᴀʏᴀ](https://t.me/SayaProject).",
                 disable_web_page_preview=True
             )
             return 400
@@ -40,9 +39,8 @@ async def handle_force_sub(bot: Client, cmd: Message):
         except Exception as err:
             print(f"Unable to do Force Subscribe to {Config.UPDATES_CHANNEL}\n\nError: {err}")
             return 200
-        await bot.send_message(
-            chat_id=cmd.from_user.id,
-            text="**Please Join My Updates Channel to use this Bot!**\n\n"
+        await cmd.reply_text(
+            "**Please Join My Updates Channel to use this Bot!**\n\n"
                  "Due to Overload, Only Channel Subscribers can use this Bot!",
             reply_markup=InlineKeyboardMarkup(
                 [
@@ -57,9 +55,8 @@ async def handle_force_sub(bot: Client, cmd: Message):
         )
         return 400
     except Exception:
-        await bot.send_message(
-            chat_id=cmd.from_user.id,
-            text="Something went Wrong. Contact my [Sᴀʏᴀ](https://t.me/SayaProject).",
+        await cmd.reply_text(
+            "Something went Wrong. Contact my [Sᴀʏᴀ](https://t.me/SayaProject).",
             disable_web_page_preview=True
         )
         return 200
