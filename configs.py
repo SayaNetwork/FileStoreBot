@@ -63,6 +63,26 @@ Send Me any Media or File. I can Work In Channel too. Add Me to Channel with Edi
 │
 ╰──────[ 😎 ]───────────⍟
 """
+
+    HELP_TEXT = """
+**Saya FileStore Bot Help**
+
+Send any file, video, audio, photo, or document to this bot.
+
+**Single file link**
+Choose **Get Sharable Link** after sending a file. The bot will save it and give you a permanent link.
+
+**Batch file link**
+Choose **Save in Batch** for each file you want to add. Then tap **Get Batch Link** to receive one link for all files.
+
+**Channel usage**
+Add the bot to your channel as admin with edit permission. When you post media in the channel, the bot adds a shareable file button.
+
+**Commands**
+/start - Open the welcome message
+/help - Show this guide
+/clear_batch - Clear your saved batch list
+"""
     
     ABOUT_DEV_TEXT = f"""
 🧑🏻‍💻 𝗗𝗲𝘃𝗲𝗹𝗼𝗽𝗲𝗿: [Sᴀʏᴀ](https://t.me/SayaProject)

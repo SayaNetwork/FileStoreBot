@@ -47,6 +47,32 @@ Bot = Client(
 )
 
 
+def home_markup():
+    return InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton("Updates Channel", url="https://t.me/SayaProject")
+            ],
+            [
+                InlineKeyboardButton("Help", callback_data="showHelp")
+            ],
+            [
+                InlineKeyboardButton("Support Group", url="https://t.me/SayaProject")
+            ]
+        ]
+    )
+
+
+def help_markup():
+    return InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton("Back to Welcome", callback_data="gotohome")
+            ]
+        ]
+    )
+
+
 @Bot.on_message(filters.private)
 async def _(bot: Client, cmd: Message):
     await handle_user_status(bot, cmd)
@@ -69,17 +95,7 @@ async def start(bot: Client, cmd: Message):
         await cmd.reply_text(
             Config.HOME_TEXT.format(cmd.from_user.first_name, cmd.from_user.id),
             disable_web_page_preview=True,
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton("Updates Channel", url="https://t.me/SayaProject")
-                    ],
-                    [
-                        InlineKeyboardButton("Support Group", url="https://t.me/SayaProject"),
-                        InlineKeyboardButton("Saya Faq", url="https://t.me/SayaProject")
-                    ]
-                ]
-            )
+            reply_markup=home_markup()
         )
     else:
         try:
@@ -145,7 +161,7 @@ async def main(bot: Client, message: Message):
         try:
             forwarded_msg = await message.forward(Config.DB_CHANNEL)
             file_er_id = str(forwarded_msg.id)
-            share_link = f"https://t.me/{Config.BOT_USERNAME}?start=VJBotz_{str_to_b64(file_er_id)}"
+            share_link = f"https://t.me/{Config.BOT_USERNAME}?start=saya_{str_to_b64(file_er_id)}"
             CH_edit = await bot.edit_message_reply_markup(message.chat.id, message.id,
                                                           reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(
                                                               "Get Sharable Link", url=share_link)]]))
@@ -183,6 +199,16 @@ async def sts(_, m: Message):
     await m.reply_text(
         text=f"**Total Users in DB:** `{total_users}`",
         quote=True
+    )
+
+
+@Bot.on_message(filters.private & filters.command("help"))
+async def help_handler(_, m: Message):
+    await m.reply_text(
+        text=Config.HELP_TEXT,
+        quote=True,
+        disable_web_page_preview=True,
+        reply_markup=help_markup()
     )
 
 
@@ -342,24 +368,16 @@ async def button(bot: Client, cmd: CallbackQuery):
 
     elif "gotohome" in cb_data:
         await cmd.message.edit(
-            Config.HOME_TEXT.format(cmd.message.chat.first_name, cmd.message.chat.id),
+            Config.HOME_TEXT.format(cmd.from_user.first_name, cmd.from_user.id),
             disable_web_page_preview=True,
-            reply_markup=InlineKeyboardMarkup(
-                [
-                    [
-                        InlineKeyboardButton("Updates Channel", url="https://t.me/SayaProject")
-                    ],
-                    [
-                        InlineKeyboardButton("Sᴀʏᴀ", callback_data="SayaProject"),
-                        InlineKeyboardButton("Sᴀʏᴀ", callback_data="SayaProject"),
-                        InlineKeyboardButton("Close 🚪", callback_data="closeMessage")
-                    ],
-                    [
-                        InlineKeyboardButton("Support Group", url="https://t.me/SayaProject"),
-                        InlineKeyboardButton("Sᴀʏᴀ", url="https://github.com/SayaProject")
-                    ]
-                ]
-            )
+            reply_markup=home_markup()
+        )
+
+    elif "showHelp" in cb_data:
+        await cmd.message.edit(
+            Config.HELP_TEXT,
+            disable_web_page_preview=True,
+            reply_markup=help_markup()
         )
 
     elif "refreshForceSub" in cb_data:
