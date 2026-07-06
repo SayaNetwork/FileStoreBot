@@ -75,11 +75,6 @@ async def start(bot: Client, cmd: Message):
                         InlineKeyboardButton("Updates Channel", url="https://t.me/SayaProject")
                     ],
                     [
-                        InlineKeyboardButton("About Bot", callback_data="SayaProject"),
-                        InlineKeyboardButton("About Dev", callback_data="SayaProject"),
-                        InlineKeyboardButton("Close", callback_data="closeMessage")
-                    ],
-                    [
                         InlineKeyboardButton("Support Group", url="https://t.me/SayaProject"),
                         InlineKeyboardButton("Saya Faq", url="https://t.me/SayaProject")
                     ]
