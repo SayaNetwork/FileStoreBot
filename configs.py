@@ -3,7 +3,9 @@ import os
 def safe_int(value, default=0):
     """Safely convert string to int with default fallback"""
     try:
-        return int(value) if value else default
+        if not value:
+            return default
+        return int(value)
     except (ValueError, TypeError):
         return default
 
@@ -24,7 +26,7 @@ class Config(object):
     DB_CHANNEL = safe_int(os.environ.get("DB_CHANNEL"))
     SHORTLINK_URL = os.environ.get('SHORTLINK_URL', "shortlink.com")
     SHORTLINK_API = os.environ.get('SHORTLINK_API', "")
-    BOT_OWNER = safe_int(os.environ.get("BOT_OWNER"))
+    BOT_OWNER = safe_int(os.environ.get("BOT_OWNER"))  # Will return 0 if 'kidzmc' or invalid
     DATABASE_URL = os.environ.get("DATABASE_URL", "")
     UPDATES_CHANNEL = os.environ.get("UPDATES_CHANNEL", "")
     LOG_CHANNEL = safe_int(os.environ.get("LOG_CHANNEL"))
