@@ -1,23 +1,53 @@
 import os
 
+def safe_int(value, default=0):
+    """Safely convert string to int with default fallback"""
+    try:
+        return int(value) if value else default
+    except (ValueError, TypeError):
+        return default
+
+def safe_bool(value, default=True):
+    """Safely convert string to bool"""
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, str):
+        return value.lower() in ("true", "1", "yes", "on")
+    return default
+
 class Config(object):
-  API_ID = int(os.environ.get("API_ID", "0"))
-  API_HASH = os.environ.get("API_HASH", "")
-  BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
-  BOT_USERNAME = os.environ.get("BOT_USERNAME", "")
-  DB_CHANNEL = int(os.environ.get("DB_CHANNEL", "0"))
-  SHORTLINK_URL = os.environ.get('SHORTLINK_URL', "")
-  SHORTLINK_API = os.environ.get('SHORTLINK_API', "")
-  BOT_OWNER = int(os.environ.get("BOT_OWNER", "0"))
-  DATABASE_URL = os.environ.get("DATABASE_URL", "")
-  UPDATES_CHANNEL = os.environ.get("UPDATES_CHANNEL", "")
-  LOG_CHANNEL = int(os.environ.get("LOG_CHANNEL", "0"))
-  BANNED_USERS = set(int(x) for x in os.environ.get("BANNED_USERS", "").split() if x.isdigit())
-  FORWARD_AS_COPY = os.environ.get("FORWARD_AS_COPY", "True").lower() in ("true", "1", "yes")
-  BROADCAST_AS_COPY = os.environ.get("BROADCAST_AS_COPY", "True").lower() in ("true", "1", "yes")
-  BANNED_CHAT_IDS = list(set(int(x) for x in os.environ.get("BANNED_CHAT_IDS", "").split() if x.isdigit()))
-  OTHER_USERS_CAN_SAVE_FILE = os.environ.get("OTHER_USERS_CAN_SAVE_FILE", "True").lower() in ("true", "1", "yes")
-  ABOUT_BOT_TEXT = f"""
+    # Required configurations with safe defaults
+    API_ID = safe_int(os.environ.get("API_ID"))
+    API_HASH = os.environ.get("API_HASH", "")
+    BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
+    BOT_USERNAME = os.environ.get("BOT_USERNAME", "filestore_bot")
+    DB_CHANNEL = safe_int(os.environ.get("DB_CHANNEL"))
+    SHORTLINK_URL = os.environ.get('SHORTLINK_URL', "shortlink.com")
+    SHORTLINK_API = os.environ.get('SHORTLINK_API', "")
+    BOT_OWNER = safe_int(os.environ.get("BOT_OWNER"))
+    DATABASE_URL = os.environ.get("DATABASE_URL", "")
+    UPDATES_CHANNEL = os.environ.get("UPDATES_CHANNEL", "")
+    LOG_CHANNEL = safe_int(os.environ.get("LOG_CHANNEL"))
+    
+    # Handle banned users safely
+    try:
+        BANNED_USERS = set(int(x) for x in os.environ.get("BANNED_USERS", "").split() if x.strip().isdigit())
+    except (ValueError, AttributeError):
+        BANNED_USERS = set()
+    
+    # Boolean configs with safe parsing
+    FORWARD_AS_COPY = safe_bool(os.environ.get("FORWARD_AS_COPY", "True"))
+    BROADCAST_AS_COPY = safe_bool(os.environ.get("BROADCAST_AS_COPY", "True"))
+    
+    # Handle banned chat ids safely
+    try:
+        BANNED_CHAT_IDS = list(set(int(x) for x in os.environ.get("BANNED_CHAT_IDS", "").split() if x.strip().isdigit()))
+    except (ValueError, AttributeError):
+        BANNED_CHAT_IDS = []
+    
+    OTHER_USERS_CAN_SAVE_FILE = safe_bool(os.environ.get("OTHER_USERS_CAN_SAVE_FILE", "True"))
+    
+    ABOUT_BOT_TEXT = f"""
 This is a Permanent FileStore Bot. 
 Send Me any Media or File. I can Work In Channel too. Add Me to Channel with Edit Permission, I will add save Uploaded File in Channel and Share a Shareable Link. 
 
@@ -31,14 +61,16 @@ Send Me any Media or File. I can Work In Channel too. Add Me to Channel with Edi
 │
 ╰──────[ 😎 ]───────────⍟
 """
-  ABOUT_DEV_TEXT = f"""
+    
+    ABOUT_DEV_TEXT = f"""
 🧑🏻‍💻 𝗗𝗲𝘃𝗲𝗹𝗼𝗽𝗲𝗿: [Sᴀʏᴀ](https://t.me/SayaProject)
  
  I am Super noob Please Support My Hard Work.
 
 [Donate Me](https://t.me/SayaProject)
 """
-  HOME_TEXT = """
+    
+    HOME_TEXT = """
 Hello, [{}](tg://user?id={})\n\nThis is a Permanent **FileStore Bot**.
 
 How to Use Bot & it's Benefits??
