@@ -3,7 +3,7 @@ TgCrypto
 motor
 aiofiles
 dnspython
-psutil
+psutil>=5.9.0
 render
 requests
 Flask==1.1.2
